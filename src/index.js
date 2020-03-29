@@ -10,15 +10,18 @@ class App extends React.Component {
 
     // calling super is what allows you to initialize state
     this.state = { lat: null };
+
+    // render() is called very frequently. don't put expensive calls in it
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({ lat: position.coords.latitude });
+      },
+      (err) => { console.log(err) }
+    );
   }
 
   render() {
-    window.navigator.geolocation.getCurrentPosition(
-      (position) => { console.log(position) },
-      (err) => { console.log(err) }
-    );
-
-    return <div>Latitude: </div>;
+    return <div>Latitude: { this.state.lat }</div>;
   }
 }
 
